@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace WebApiWithAuth.Models
 {
-    public class Issue
+    public class IssueModel
     {
         public int Id { get; set; }
         public string Customer { get; set; }
-        public DateTime Created { get; set; }
-        public string Status { get; set; }
+        public string status { get; set; }
     }
 }

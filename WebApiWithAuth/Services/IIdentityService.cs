@@ -12,6 +12,11 @@ namespace WebApiWithAuth.Services
         Task<SignInResponse> SignInAsync(string email, string password);
         Task<IEnumerable<UserResponse>> GetUsersAsync();
         bool ValidateAccessRights(RequestUser requestUser);
+
+
+        IssueModel AddIssues(IssueModel items);
+
+        Dictionary<string, IssueModel> GetIssues();
     }
 }
 

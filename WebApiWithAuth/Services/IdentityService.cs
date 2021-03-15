@@ -49,6 +49,7 @@ namespace WebApiWithAuth.Services
             return false;
         }
 
+
         public async Task<SignInResponse> SignInAsync(string email, string password)
         {
 
@@ -111,13 +112,6 @@ namespace WebApiWithAuth.Services
             return users;
         }
 
-
-        public async Task<bool> CreateIssueAsync(Issue model)
-        {
-
-        }
-
-
         public bool ValidateAccessRights(RequestUser requestUser)
         {
             if (_context.SessionTokens.Any(x => x.UserId == requestUser.UserId && x.AccessToken == requestUser.AccessToken))
@@ -125,5 +119,30 @@ namespace WebApiWithAuth.Services
 
             return false;
         }
+
+
+
+        private readonly Dictionary<string, IssueModel> _issueModel;
+
+
+        public IdentityService()
+        {
+            _issueModel = new Dictionary<string, IssueModel>();
+        }
+
+
+        public IssueModel AddIssues(IssueModel items)
+        {
+            _issueModel.Add(items.Customer, items);
+
+            return items;
+        }
+
+        public Dictionary<string, IssueModel> GetIssues()
+        {
+            return _issueModel;
+        }
+
+
     }
 }
