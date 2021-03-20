@@ -49,7 +49,7 @@ namespace WebApiWithAuth.Data
             using (var hmac = new HMACSHA512(UserSalt))
             {
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                for( int i=0; i<computedHash.Length; i++)
+                for (int i = 0; i < computedHash.Length; i++)
                 {
                     if (computedHash[i] != UserHash[i])
                         return false;

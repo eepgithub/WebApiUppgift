@@ -49,7 +49,6 @@ namespace WebApiWithAuth.Services
             return false;
         }
 
-
         public async Task<SignInResponse> SignInAsync(string email, string password)
         {
 
@@ -120,28 +119,28 @@ namespace WebApiWithAuth.Services
             return false;
         }
 
-
-
-        private readonly Dictionary<string, IssueModel> _issueModel;
-
-
-        public IdentityService()
+        public async Task<bool> AddIssueAsync(AddIssueModel model)
         {
-            _issueModel = new Dictionary<string, IssueModel>();
+            try
+            {
+                var issue = new Issue()
+                {
+                    Id = model.Id,
+                    Customer = model.Customer,
+                    Created = model.Created,
+                    Updated = model.Updated,
+                    Status = model.Status
+                };
+                _context.Issues.Add(issue);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch { }
+
+            return false;
         }
 
-
-        public IssueModel AddIssues(IssueModel items)
-        {
-            _issueModel.Add(items.Customer, items);
-
-            return items;
-        }
-
-        public Dictionary<string, IssueModel> GetIssues()
-        {
-            return _issueModel;
-        }
 
 
     }

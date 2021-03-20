@@ -15,8 +15,9 @@ namespace WebApiWithAuth.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<SessionToken> SessionTokens { get; set; }
-        
+        public DbSet<Issue> Issues { get; set; }
 
-      
+
+
     }
 }

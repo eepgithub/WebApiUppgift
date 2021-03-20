@@ -13,10 +13,8 @@ namespace WebApiWithAuth.Services
         Task<IEnumerable<UserResponse>> GetUsersAsync();
         bool ValidateAccessRights(RequestUser requestUser);
 
+        Task<bool> AddIssueAsync(AddIssueModel model);
 
-        IssueModel AddIssues(IssueModel items);
-
-        Dictionary<string, IssueModel> GetIssues();
     }
 }
 

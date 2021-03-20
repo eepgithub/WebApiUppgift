@@ -17,6 +17,6 @@ namespace WebApiWithAuth.Data
         [Required]
         [Column(TypeName = "varbinary(max)")]
         public string AccessToken { get; set; }
-        
+
     }
 }

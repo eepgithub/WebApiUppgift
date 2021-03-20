@@ -1,56 +1,61 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApiWithAuth.Data;
 using WebApiWithAuth.Models;
 using WebApiWithAuth.Services;
 
 namespace WebApiWithAuth.Controllers
 {
-    [Route("v1")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class IssueController : ControllerBase
     {
+        private readonly SqlDbContext _context;
+        private readonly IIdentityService _identity;
 
-        private readonly IIdentityService _services;
 
-        public IssueController(IIdentityService services)
+        public IssueController(SqlDbContext context, IIdentityService identity)
         {
-            _services = services;
+            _context = context;
+            _identity = identity;
         }
+       
 
-        [HttpPost]
-        [Route("AddIssues")]
-        public ActionResult<IssueModel> AddIssues(IssueModel items)
+        [HttpPost("Add")]
+        public async Task<IActionResult> AddIssue([FromBody] AddIssueModel model)
         {
-            var issues = _services.AddIssues(items);
+            if (await _identity.AddIssueAsync(model))
+                return new OkResult();
 
-
-            if (issues == null)
-            {
-                return NotFound();
-            }
-
-            return issues;
+            return new BadRequestResult();
         }
-
 
 
         [HttpGet]
-        [Route("GetIssues")]
-        public ActionResult<Dictionary<string, IssueModel>> GetIssues()
+        public async Task<ActionResult<IEnumerable<Issue>>> GetErrandIssues()
         {
-            var issueModel = _services.GetIssues();
+            return await _context.Issues.ToListAsync();
+        }
 
-            if (issueModel.Count == 0)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Issue>> GetIssue(int id)
+        {
+            var Issue = await _context.Issues.FindAsync(id);
+
+            if (Issue == null)
             {
                 return NotFound();
             }
 
-            return issueModel;
+            return Issue;
         }
+
+
 
 
     }
